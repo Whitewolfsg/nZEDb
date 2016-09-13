@@ -2,7 +2,8 @@
 namespace nzedb;
 
 use app\extensions\util\Yenc;
-use nzedb\db\Settings;
+use app\models\Settings;
+use nzedb\db\DB;
 use nzedb\utility\Misc;
 
 /**
@@ -107,7 +108,7 @@ class NNTP extends \Net_NNTP_Client
 
 		$this->_echo = ($options['Echo'] && nZEDb_ECHOCLI);
 
-		$this->pdo = ($options['Settings'] instanceof Settings ? $options['Settings'] : new Settings());
+		$this->pdo = ($options['Settings'] instanceof DB ? $options['Settings'] : new DB());
 
 		$this->_debugBool = (nZEDb_LOGGING || nZEDb_DEBUG);
 		if ($this->_debugBool) {
@@ -118,7 +119,7 @@ class NNTP extends \Net_NNTP_Client
 			}
 		}
 
-		$this->_nntpRetries = ($this->pdo->getSetting('nntpretries') != '') ? (int)$this->pdo->getSetting('nntpretries') : 0 + 1;
+		$this->_nntpRetries = (Settings::value('nntpretries') != '') ? (int)Settings::value('nntpretries') : 0 + 1;
 
 		$this->_initiateYEncSettings();
 	}
@@ -272,7 +273,7 @@ class NNTP extends \Net_NNTP_Client
 			// If we are connected and authenticated, try enabling compression if we have it enabled.
 			if ($connected === true && $authenticated === true) {
 				// Check if we should use compression on the connection.
-				if ($compression === false || $this->pdo->getSetting('compressedheaders') == 0) {
+				if ($compression === false || Settings::value('compressedheaders') == 0) {
 					$this->_compressionSupported = false;
 				}
 				if ($this->_debugBool) {
@@ -345,7 +346,7 @@ class NNTP extends \Net_NNTP_Client
 	 */
 	public function enableCompression()
 	{
-		if (!$this->pdo->getSetting('compressedheaders') == 1) {
+		if (!Settings::value('compressedheaders') == 1) {
 			return;
 		}
 		$this->_enableCompression();
@@ -1155,7 +1156,7 @@ class NNTP extends \Net_NNTP_Client
 	protected function _initiateYEncSettings()
 	{
 		// Check if the user wants to use yyDecode or the simple_php_yenc_decode extension.
-		$this->_yyDecoderPath = ($this->pdo->getSetting('yydecoderpath') != '') ? (string)$this->pdo->getSetting('yydecoderpath') : false;
+		$this->_yyDecoderPath = (Settings::value('yydecoderpath') != '') ? (string)Settings::value('yydecoderpath') : false;
 		if (strpos((string)$this->_yyDecoderPath, 'simple_php_yenc_decode') !== false) {
 			if (extension_loaded('simple_php_yenc_decode')) {
 				$this->_yEncExtension = true;
