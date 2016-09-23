@@ -9,6 +9,11 @@ NOT BE PRESENT IN THE STABLE BRANCH
 For details of when a commit makes it into the stable branch see the ReleaseNotes file.
 
 
+2016-09-23 niel
+	Chg: Refactor checking of 'setting' for single element or dotted format, into its own method so
+		the to be created update override can access it also.
+	Chg: Dropped idea of overriding 'update' and made method public instead, so that calling code
+	    can create the array for update.
 2016-09-20 DariusIII
 	Fix: Wrongly named autosize script in Alpha and Charisma themes (fixes issue #2268)
 2016-09-20 niel
