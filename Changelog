@@ -9,6 +9,12 @@ NOT BE PRESENT IN THE STABLE BRANCH
 For details of when a commit makes it into the stable branch see the ReleaseNotes file.
 
 
+2016-09-24 niel
+	Chg: Replace Page::getSetting() with method to trigger a warning for old style settings fetch. A
+		new method called getSettingValue() will use the app\models\Settings model and is the
+		prefered method from now on. the getSetting() method is deprecated and will be removed in
+		the near future.
+	Chg: Update templates to use newer Page::getSettingVale() to fetch from the settings table.
 2016-09-23 niel
 	Chg: Refactor checking of 'setting' for single element or dotted format, into its own method so
 		the to be created update override can access it also.
