@@ -119,7 +119,8 @@ class NNTP extends \Net_NNTP_Client
 			}
 		}
 
-		$this->_nntpRetries = (Settings::value('nntpretries') != '') ? (int)Settings::value('nntpretries') : 0 + 1;
+		$dummy = Settings::value('..nntpretries');
+		$this->_nntpRetries = ($dummy != '') ? (int)$dummy : 0 + 1;
 
 		$this->_initiateYEncSettings();
 	}
@@ -273,7 +274,7 @@ class NNTP extends \Net_NNTP_Client
 			// If we are connected and authenticated, try enabling compression if we have it enabled.
 			if ($connected === true && $authenticated === true) {
 				// Check if we should use compression on the connection.
-				if ($compression === false || Settings::value('compressedheaders') == 0) {
+				if ($compression === false || Settings::value('..compressedheaders') == 0) {
 					$this->_compressionSupported = false;
 				}
 				if ($this->_debugBool) {
@@ -346,7 +347,7 @@ class NNTP extends \Net_NNTP_Client
 	 */
 	public function enableCompression()
 	{
-		if (!Settings::value('compressedheaders') == 1) {
+		if (!Settings::value('..compressedheaders') == 1) {
 			return;
 		}
 		$this->_enableCompression();
@@ -1153,7 +1154,7 @@ class NNTP extends \Net_NNTP_Client
 	 *
 	 * @access protected
 	 */
-	protected function _initiateYEncSettings()
+/*	protected function _initiateYEncSettings()
 	{
 		// Check if the user wants to use yyDecode or the simple_php_yenc_decode extension.
 		$this->_yyDecoderPath = (Settings::value('yydecoderpath') != '') ? (string)Settings::value('yydecoderpath') : false;
@@ -1181,7 +1182,7 @@ class NNTP extends \Net_NNTP_Client
 				@unlink($this->_yEncTempInput);
 			}
 		}
-	}
+	}*/
 
 	/**
 	 * Split a string into lines of 510 chars ending with \r\n.
